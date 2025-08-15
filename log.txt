@@ -1,0 +1,10 @@
+[INFO] Successfully loaded FFB settings
+[INFO] Target device: Simucube 2 Pro
+[INFO] Initializing DirectInput...
+[INFO] Searching for device: Simucube 2 Pro
+[INFO] Found matching device: Simucube 2 Pro
+[INFO] Successfully created device interface
+[INFO] Device initialization successful
+[INFO] Device found and initialized successfully
+[INFO] Device acquired successfully
+[INFO] Initial spring effect created
