@@ -1,7 +1,4 @@
 # ICR2FFB Config Tool
-<div align="center">
-<img width="1000" height="500" alt="logoICR2FFB" src="https://github.com/user-attachments/assets/7bcdbfc6-6744-4eef-80e7-71be4b213929" />
-</div>
 ## A simple UI for the ICR2FFB plugin for Indicar Racing 2
 
 <div align="center">
