@@ -259,7 +259,7 @@ public class MainDialog extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ICR2FFB Config");
-        setIconImage(new ImageIcon(getClass().getResource("logoGP.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("logoICR2FFB.png")).getImage());
 
         jPanelPluginConfig.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
