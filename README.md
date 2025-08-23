@@ -12,7 +12,7 @@ ICR2FFB Config Tool reads your `.ini` file and displays the values in the window
 To install, just copy `ICR2FFConfig.exe` into the same folder as the plugin.
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/8ae95cf9-d67a-4500-b8e3-e187e8f21fac" alt="ICR2FFB Config Tool" />
+  <img width="389" height="379" alt="image" src="https://github.com/user-attachments/assets/779e4a73-22ad-484c-8475-fe3558bf16e0" />
 </div>
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
