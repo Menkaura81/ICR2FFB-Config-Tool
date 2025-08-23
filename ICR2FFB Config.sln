@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36408.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICR2FFB Config", "WinFormsApp1\ICR2FFB Config.csproj", "{95DF2D59-DF97-4021-B878-6C78F61A66BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICR2FFBConfig", "WinFormsApp1\ICR2FFBConfig.csproj", "{95DF2D59-DF97-4021-B878-6C78F61A66BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
