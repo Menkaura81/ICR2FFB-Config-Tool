@@ -338,9 +338,9 @@
             // buttonRefresh
             // 
             buttonRefresh.Image = (Image)resources.GetObject("buttonRefresh.Image");
-            buttonRefresh.Location = new Point(223, 37);
+            buttonRefresh.Location = new Point(219, 34);
             buttonRefresh.Name = "buttonRefresh";
-            buttonRefresh.Size = new Size(26, 26);
+            buttonRefresh.Size = new Size(30, 30);
             buttonRefresh.TabIndex = 6;
             buttonRefresh.UseVisualStyleBackColor = true;
             buttonRefresh.Click += buttonRefresh_Click;
@@ -448,6 +448,7 @@
             Controls.Add(panel1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MainDialog";
+            ShowInTaskbar = false;
             Text = "ICR2FFB Config";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

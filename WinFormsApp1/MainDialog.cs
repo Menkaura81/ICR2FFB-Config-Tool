@@ -50,8 +50,11 @@ namespace WinFormsApp1
             InitializeComponent();
             // Center the dialog in the screen
             this.StartPosition = FormStartPosition.CenterScreen;
+            // Fixed size dialog
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false; // No maximize button
             readIni();
-            readDirectInputDevices();            
+            readDirectInputDevices();
             fillDialog();
         }
 
@@ -61,25 +64,79 @@ namespace WinFormsApp1
          */
         private void readDirectInputDevices()
         {
-            Debug.WriteLine(device);
-            directInput = new DirectInput();
-            devices = directInput.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AttachedOnly);
-
-            comboBoxDirectInput.Items.Clear();
-
-            foreach (var deviceInstance in devices)
+            try
             {
-                Debug.WriteLine($"Dispositivo: {deviceInstance.ProductName}");
-                comboBoxDirectInput.Items.Add(deviceInstance.ProductName);                
-                if (deviceInstance.ProductName.Equals(device))
+                Debug.WriteLine($"Searching devices: {device}");
+
+                // IMPORTANTE: Liberar DirectInput anterior si existe
+                if (directInput != null)
                 {
-                    comboBoxDirectInput.SelectedItem = deviceInstance.ProductName;
+                    directInput.Dispose();
+                    directInput = null;
                 }
-                else
+
+                // Inicializar DirectInput
+                directInput = new DirectInput();
+                // Enum all devices
+                var allDevices = directInput.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AllDevices);
+                // Filter only connected devices 
+                devices = allDevices.Where(d => d.Type != DeviceType.Mouse && d.Type != DeviceType.Keyboard).ToList();
+
+                // Clean ComboBox
+                comboBoxDirectInput.Items.Clear();
+                comboBoxDirectInput.SelectedIndex = -1; // Asegurar que no hay selección
+                comboBoxDirectInput.Text = string.Empty;
+
+                // Check if any device found
+                if (devices == null || !devices.Any())
                 {
-                    //comboBoxDirectInput.SelectedIndex = 0;
-                    comboBoxDirectInput.Text = "ini device not connected";
+                    comboBoxDirectInput.Text = "No devices found";
+                    Debug.WriteLine("No DirectInput devices found");
+                    return;
                 }
+
+                // Fill ComboBox with device names
+                foreach (var deviceInstance in devices)
+                {
+                    Debug.WriteLine($"Device found: {deviceInstance.ProductName}");
+                    comboBoxDirectInput.Items.Add(deviceInstance.ProductName);
+                }
+
+                // Search and select the device from ini file
+                bool deviceFound = false;
+                if (!string.IsNullOrEmpty(device))
+                {
+                    for (int i = 0; i < comboBoxDirectInput.Items.Count; i++)
+                    {
+                        if (comboBoxDirectInput.Items[i].ToString().Equals(device))
+                        {
+                            comboBoxDirectInput.SelectedIndex = i;
+                            deviceFound = true;
+                            Debug.WriteLine($"Device selected: {device}");
+                            break;
+                        }
+                    }
+                }
+
+                // Manejar caso cuando no se encuentra el dispositivo
+                if (!deviceFound)
+                {
+                    if (comboBoxDirectInput.Items.Count > 0)
+                    {
+                        comboBoxDirectInput.Text = "ini device not found";
+                    }
+                    else
+                    {
+                        comboBoxDirectInput.Text = "No devices connected";
+                    }
+                    Debug.WriteLine("ini device not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error reading DirectInput devices: {ex.Message}");
+                comboBoxDirectInput.Items.Clear();
+                comboBoxDirectInput.Text = "Error reading devices";
             }
         }
 
@@ -98,7 +155,7 @@ namespace WinFormsApp1
             }
             */
             // Get values 
-            device = iniLines[DEVICE_LINE].Substring("Device: ".Length).Trim();            
+            device = iniLines[DEVICE_LINE].Substring("Device: ".Length).Trim();
             game = iniLines[GAME_LINE].Substring("Game: ".Length).Trim();
             version = iniLines[VERSION_LINE].Substring("Version: ".Length).Trim();
             force = int.Parse(iniLines[FORCE_LINE].Substring("Force: ".Length).Trim());
@@ -379,9 +436,27 @@ namespace WinFormsApp1
             }
         }
 
+
+        /**
+         * Button for Refreshing DirectInput devices
+         */
         private void buttonRefresh_Click(object sender, EventArgs e)
         {
-            readDirectInputDevices();
+            readDirectInputDevices();            
+        }
+
+
+        /**
+         * Dispose DirectInput on form closing
+         */
+        private void MainDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Dispose DirectInput
+            if (directInput != null)
+            {
+                directInput.Dispose();
+                directInput = null;
+            }
         }
     }
 }
