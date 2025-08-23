@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+/WinFormsApp1/IRC2FFB.exe
+/WinFormsApp1/ffb.ini
