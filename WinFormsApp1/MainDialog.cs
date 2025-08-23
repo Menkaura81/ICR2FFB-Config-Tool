@@ -351,8 +351,7 @@ namespace WinFormsApp1
             string RUTA_SALIDA = Directory.GetCurrentDirectory() + "/ffb.ini";
             try
             {
-                File.WriteAllText(RUTA_SALIDA, ini);
-                MessageBox.Show("ini file saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                File.WriteAllText(RUTA_SALIDA, ini);                
             }
             catch (IOException ex)
             {
@@ -366,6 +365,8 @@ namespace WinFormsApp1
          */
         private void buttonRun_Click(object sender, EventArgs e)
         {
+            // Save ini before launch
+            writeIni();
             string nombreArchivo = "ICR2FFB.exe";
             try
             {
@@ -433,6 +434,7 @@ namespace WinFormsApp1
             else
             {
                 writeIni();
+                MessageBox.Show("ini file saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
