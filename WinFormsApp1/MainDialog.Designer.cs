@@ -54,6 +54,7 @@
             label12 = new Label();
             label6 = new Label();
             panel3 = new Panel();
+            buttonRefresh = new Button();
             comboBoxDirectInput = new ComboBox();
             comboBoxVersion = new ComboBox();
             label10 = new Label();
@@ -61,7 +62,6 @@
             label9 = new Label();
             label8 = new Label();
             label7 = new Label();
-            textBoxDevice = new TextBox();
             label11 = new Label();
             buttonSave = new Button();
             buttonRun = new Button();
@@ -322,6 +322,7 @@
             // panel3
             // 
             panel3.BorderStyle = BorderStyle.FixedSingle;
+            panel3.Controls.Add(buttonRefresh);
             panel3.Controls.Add(comboBoxDirectInput);
             panel3.Controls.Add(comboBoxVersion);
             panel3.Controls.Add(label10);
@@ -331,8 +332,18 @@
             panel3.Controls.Add(label7);
             panel3.Location = new Point(12, 179);
             panel3.Name = "panel3";
-            panel3.Size = new Size(229, 141);
+            panel3.Size = new Size(257, 141);
             panel3.TabIndex = 2;
+            // 
+            // buttonRefresh
+            // 
+            buttonRefresh.Image = (Image)resources.GetObject("buttonRefresh.Image");
+            buttonRefresh.Location = new Point(223, 37);
+            buttonRefresh.Name = "buttonRefresh";
+            buttonRefresh.Size = new Size(26, 26);
+            buttonRefresh.TabIndex = 6;
+            buttonRefresh.UseVisualStyleBackColor = true;
+            buttonRefresh.Click += buttonRefresh_Click;
             // 
             // comboBoxDirectInput
             // 
@@ -348,7 +359,7 @@
             comboBoxVersion.Items.AddRange(new object[] { "DOS4G", "REND32A" });
             comboBoxVersion.Location = new Point(110, 106);
             comboBoxVersion.Name = "comboBoxVersion";
-            comboBoxVersion.Size = new Size(107, 23);
+            comboBoxVersion.Size = new Size(135, 23);
             comboBoxVersion.TabIndex = 8;
             // 
             // label10
@@ -364,7 +375,7 @@
             // 
             textBoxGame.Location = new Point(110, 70);
             textBoxGame.Name = "textBoxGame";
-            textBoxGame.Size = new Size(107, 23);
+            textBoxGame.Size = new Size(135, 23);
             textBoxGame.TabIndex = 6;
             // 
             // label9
@@ -395,13 +406,6 @@
             label7.TabIndex = 2;
             label7.Text = "Plugin Config";
             // 
-            // textBoxDevice
-            // 
-            textBoxDevice.Location = new Point(12, 341);
-            textBoxDevice.Name = "textBoxDevice";
-            textBoxDevice.Size = new Size(100, 23);
-            textBoxDevice.TabIndex = 4;
-            // 
             // label11
             // 
             label11.AutoSize = true;
@@ -413,7 +417,7 @@
             // 
             // buttonSave
             // 
-            buttonSave.Location = new Point(268, 206);
+            buttonSave.Location = new Point(283, 210);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(86, 34);
             buttonSave.TabIndex = 4;
@@ -423,7 +427,7 @@
             // 
             // buttonRun
             // 
-            buttonRun.Location = new Point(268, 253);
+            buttonRun.Location = new Point(283, 257);
             buttonRun.Name = "buttonRun";
             buttonRun.Size = new Size(86, 34);
             buttonRun.TabIndex = 5;
@@ -435,11 +439,10 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(389, 368);
+            ClientSize = new Size(387, 347);
             Controls.Add(buttonRun);
             Controls.Add(buttonSave);
             Controls.Add(label11);
-            Controls.Add(textBoxDevice);
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel1);
@@ -480,7 +483,6 @@
         protected internal Label label8;
         private TextBox textBoxGame;
         private Label label9;
-        private TextBox textBoxDevice;
         private ComboBox comboBoxVersion;
         private Label label10;
         private Label label11;
@@ -499,5 +501,6 @@
         private ComboBox comboBoxDamper;
         private ComboBox comboBoxConstant;
         private ComboBox comboBoxDirectInput;
+        private Button buttonRefresh;
     }
 }

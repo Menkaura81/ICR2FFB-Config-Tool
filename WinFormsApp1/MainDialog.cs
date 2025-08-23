@@ -50,8 +50,8 @@ namespace WinFormsApp1
             InitializeComponent();
             // Center the dialog in the screen
             this.StartPosition = FormStartPosition.CenterScreen;
-            readDirectInputDevices();
             readIni();
+            readDirectInputDevices();            
             fillDialog();
         }
 
@@ -61,13 +61,25 @@ namespace WinFormsApp1
          */
         private void readDirectInputDevices()
         {
+            Debug.WriteLine(device);
             directInput = new DirectInput();
             devices = directInput.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AttachedOnly);
+
+            comboBoxDirectInput.Items.Clear();
 
             foreach (var deviceInstance in devices)
             {
                 Debug.WriteLine($"Dispositivo: {deviceInstance.ProductName}");
-                comboBoxDirectInput.Items.Add(deviceInstance.ProductName);
+                comboBoxDirectInput.Items.Add(deviceInstance.ProductName);                
+                if (deviceInstance.ProductName.Equals(device))
+                {
+                    comboBoxDirectInput.SelectedItem = deviceInstance.ProductName;
+                }
+                else
+                {
+                    //comboBoxDirectInput.SelectedIndex = 0;
+                    comboBoxDirectInput.Text = "ini device not connected";
+                }
             }
         }
 
@@ -86,7 +98,7 @@ namespace WinFormsApp1
             }
             */
             // Get values 
-            device = iniLines[DEVICE_LINE].Substring("Device: ".Length).Trim();
+            device = iniLines[DEVICE_LINE].Substring("Device: ".Length).Trim();            
             game = iniLines[GAME_LINE].Substring("Game: ".Length).Trim();
             version = iniLines[VERSION_LINE].Substring("Version: ".Length).Trim();
             force = int.Parse(iniLines[FORCE_LINE].Substring("Force: ".Length).Trim());
@@ -141,7 +153,7 @@ namespace WinFormsApp1
          */
         private void fillDialog()
         {
-            textBoxDevice.Text = device;
+            // comboBoxDirectInput.SelectedItem = device;
             textBoxGame.Text = game;
             if (version.Equals("DOS4G"))
             {
@@ -204,7 +216,7 @@ namespace WinFormsApp1
          */
         private void writeIni()
         {
-            device = textBoxDevice.Text.Trim();
+            device = comboBoxDirectInput.SelectedItem.ToString();
             game = textBoxGame.Text.Trim();
             version = comboBoxVersion.SelectedItem.ToString();
             force = (int)numericUpDownForce.Value;
@@ -357,14 +369,19 @@ namespace WinFormsApp1
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBoxDevice.Text) || string.IsNullOrWhiteSpace(textBoxGame.Text))
+            if (string.IsNullOrWhiteSpace(textBoxGame.Text))
             {
-                MessageBox.Show("Device or Game field is empty", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Game field is empty", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {
-                writeIni();                
+                writeIni();
             }
+        }
+
+        private void buttonRefresh_Click(object sender, EventArgs e)
+        {
+            readDirectInputDevices();
         }
     }
 }
