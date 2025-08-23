@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing.Drawing2D;
-using System.IO;
-using System.Reflection.Metadata;
-using System.Windows.Forms;
+using SharpDX.DirectInput;
 
 namespace WinFormsApp1
 {
-    public partial class Form1 : Form
+    public partial class MainDialog : Form
     {
-
+        // ini file lines
         String[] iniLines;
-
+        // ini values
         private String device;
         private String game;
         private String version;
@@ -27,7 +22,6 @@ namespace WinFormsApp1
         private int damperScale;
         private int brakingScale;
         private String spring;
-
         // values line in .ini file
         private readonly int DEVICE_LINE = 2;
         private readonly int GAME_LINE = 6;
@@ -42,25 +36,48 @@ namespace WinFormsApp1
         private readonly int DAMPER_LINE = 39;
         private readonly int DAMPER_SCALE_LINE = 40;
         private readonly int SPRING_LINE = 46;
+        // DirectInput
+        private static DirectInput directInput;
+        private static IList<DeviceInstance> devices;
 
-        public Form1()
+
+        /**
+         * Main dialog constructor
+         */
+        public MainDialog()
         {
+            // Initialize the form components
             InitializeComponent();
+            // Center the dialog in the screen
             this.StartPosition = FormStartPosition.CenterScreen;
+            readDirectInputDevices();
             readIni();
             fillDialog();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
 
+        /**
+         * Read DirectInput devices and fill the comboBoxDirectInput
+         */
+        private void readDirectInputDevices()
+        {
+            directInput = new DirectInput();
+            devices = directInput.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AttachedOnly);
+
+            foreach (var deviceInstance in devices)
+            {
+                Debug.WriteLine($"Dispositivo: {deviceInstance.ProductName}");
+                comboBoxDirectInput.Items.Add(deviceInstance.ProductName);
+            }
         }
 
 
+        /**
+         * Read ffb.ini file and get the values
+         */
         private void readIni()
         {
             iniLines = File.ReadAllLines("ffb.ini");
-
             // File read check
             /*
             for (int i = 0; i < iniLines.Length; i++)
@@ -68,7 +85,6 @@ namespace WinFormsApp1
                 Debug.WriteLine($"{i}: {iniLines[i]}");
             }
             */
-
             // Get values 
             device = iniLines[DEVICE_LINE].Substring("Device: ".Length).Trim();
             game = iniLines[GAME_LINE].Substring("Game: ".Length).Trim();
@@ -83,7 +99,6 @@ namespace WinFormsApp1
             damper = iniLines[DAMPER_LINE].Substring("Damper: ".Length);
             damperScale = int.Parse(iniLines[DAMPER_SCALE_LINE].Substring("Damper Scale: ".Length).Trim());
             spring = iniLines[SPRING_LINE].Substring("Spring: ".Length);
-
             // Clean ini string            
             int pos = iniLines[DEVICE_LINE].IndexOf(":");
             iniLines[DEVICE_LINE] = iniLines[DEVICE_LINE].Substring(0, pos + 1);
@@ -111,7 +126,6 @@ namespace WinFormsApp1
             iniLines[DAMPER_SCALE_LINE] = iniLines[DAMPER_SCALE_LINE].Substring(0, pos + 1);
             pos = iniLines[SPRING_LINE].IndexOf(":");
             iniLines[SPRING_LINE] = iniLines[SPRING_LINE].Substring(0, pos + 1); // incluye el ':'
-
             // Clean ini check
             /* 
             for (int i = 0; i < iniLines.Length; i++)
@@ -119,9 +133,12 @@ namespace WinFormsApp1
                 Debug.WriteLine($"{i}: {iniLines[i]}");
             }
             */
-        }                
+        }
 
 
+        /**
+         * Fill the dialog with the values read from ffb.ini
+         */
         private void fillDialog()
         {
             textBoxDevice.Text = device;
@@ -151,7 +168,7 @@ namespace WinFormsApp1
             else
             {
                 comboBoxLimit.SelectedIndex = 1;
-            }           
+            }
             if (constant.Equals("true"))
             {
                 comboBoxConstant.SelectedIndex = 1;
@@ -161,7 +178,7 @@ namespace WinFormsApp1
                 comboBoxConstant.SelectedIndex = 0;
             }
             numericUpDownConstantScale.Value = constantScale;
-            numericUpDownBrakingScale.Value = brakingScale;            
+            numericUpDownBrakingScale.Value = brakingScale;
             if (damper.Equals("true"))
             {
                 comboBoxDamper.SelectedIndex = 1;
@@ -182,12 +199,102 @@ namespace WinFormsApp1
         }
 
 
+        /**
+         * Write the screen values to ffb.ini
+         */
         private void writeIni()
         {
+            device = textBoxDevice.Text.Trim();
+            game = textBoxGame.Text.Trim();
+            version = comboBoxVersion.SelectedItem.ToString();
+            force = (int)numericUpDownForce.Value;
+            deadzone = (int)numericUpDownDeadzone.Value;
+            invert = comboBoxInvertFFB.SelectedItem.ToString();
+            limit = comboBoxLimit.SelectedItem.ToString();
+            constant = comboBoxConstant.SelectedItem.ToString();
+            constantScale = (int)numericUpDownConstantScale.Value;
+            brakingScale = (int)numericUpDownBrakingScale.Value;
+            damper = comboBoxDamper.SelectedItem.ToString();
+            damperScale = (int)numericUpDownDamperScale.Value;
+            spring = comboBoxSpring.SelectedItem.ToString();
 
+            // Fill the ini string with the values from the screen
+            String ini = "";
+            for (int i = 0; i < iniLines.Length; i++)
+            {
+                ini += iniLines[i];
+                if (i == DEVICE_LINE)
+                {
+                    ini += " " + device;
+                }
+                else if (i == GAME_LINE)
+                {
+                    ini += " " + game;
+                }
+                else if (i == VERSION_LINE)
+                {
+                    ini += " " + version;
+                }
+                else if (i == FORCE_LINE)
+                {
+                    ini += " " + force;
+                }
+                else if (i == DEADZONE_LINE)
+                {
+                    ini += " " + deadzone;
+                }
+                else if (i == INVERT_LINE)
+                {
+                    ini += " " + invert;
+                }
+                else if (i == LIMIT_LINE)
+                {
+                    ini += " " + limit;
+                }
+                else if (i == CONSTANT_LINE)
+                {
+                    ini += " " + constant;
+                }
+                else if (i == CONSTANT_SCALE_LINE)
+                {
+                    ini += " " + constantScale;
+                }
+                else if (i == BRAKING_SCALE_LINE)
+                {
+                    ini += " " + brakingScale;
+                }
+                else if (i == DAMPER_LINE)
+                {
+                    ini += " " + damper;
+                }
+                else if (i == DAMPER_SCALE_LINE)
+                {
+                    ini += " " + damperScale;
+                }
+                else if (i == SPRING_LINE)
+                {
+                    ini += " " + spring;
+                }
+                ini += "\n";
+            }
+
+            // Write the file
+            string RUTA_SALIDA = Directory.GetCurrentDirectory() + "/ffb.ini";
+            try
+            {
+                File.WriteAllText(RUTA_SALIDA, ini);
+                MessageBox.Show("ini file saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("Error writing ini file", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
 
+        /**
+         * Launch ICR2FFB.exe with admin rights
+         */
         private void buttonRun_Click(object sender, EventArgs e)
         {
             string nombreArchivo = "ICR2FFB.exe";
@@ -207,45 +314,56 @@ namespace WinFormsApp1
 
                 if (proceso != null)
                 {
-                    Debug.WriteLine($"✓ ÉXITO: ICR2FFB iniciado como administrador con ID: {proceso.Id}");
+                    Debug.WriteLine($"✓ SUCCESS: ICR2FFB started as administrator with ID: {proceso.Id}");
                 }
                 else
                 {
-                    Debug.WriteLine("❌ El proceso no se pudo iniciar (¿usuario canceló UAC?)");
+                    Debug.WriteLine("❌ The process could not be started (did user cancel UAC?)");
                 }
             }
             catch (Win32Exception ex)
             {
                 Debug.WriteLine($"❌ Win32Exception: {ex.Message}");
-                Debug.WriteLine($"Código de error nativo: {ex.NativeErrorCode}");
-
+                Debug.WriteLine($"Native error code: {ex.NativeErrorCode}");
                 switch (ex.NativeErrorCode)
                 {
                     case 1223: // ERROR_CANCELLED
-                        Debug.WriteLine("💡 CAUSA: Usuario canceló la solicitud de UAC");
-                        Debug.WriteLine("💡 SOLUCIÓN: Aceptar la ventana de UAC para que ICR2FFB funcione");
+                        Debug.WriteLine("💡 CAUSE: User cancelled UAC request");
+                        Debug.WriteLine("💡 SOLUTION: Accept the UAC window for ICR2FFB to work");
                         break;
                     case 2: // ERROR_FILE_NOT_FOUND
-                        Debug.WriteLine("💡 CAUSA: ICR2FFB.exe no encontrado");
-                        Debug.WriteLine("💡 SOLUCIÓN: Verificar que ICR2FFB.exe está en la carpeta correcta");
+                        Debug.WriteLine("💡 CAUSE: ICR2FFB.exe not found");
+                        Debug.WriteLine("💡 SOLUTION: Verify that ICR2FFB.exe is in the correct folder");
                         break;
                     case 5: // ERROR_ACCESS_DENIED
-                        Debug.WriteLine("💡 CAUSA: Acceso denegado");
-                        Debug.WriteLine("💡 SOLUCIÓN: Ejecutar Visual Studio como administrador");
+                        Debug.WriteLine("💡 CAUSE: Access denied");
+                        Debug.WriteLine("💡 SOLUTION: Run Visual Studio as administrator");
                         break;
                     case 193: // ERROR_BAD_EXE_FORMAT
-                        Debug.WriteLine("💡 CAUSA: ICR2FFB.exe corrupto o formato inválido");
-                        Debug.WriteLine("💡 SOLUCIÓN: Descargar ICR2FFB nuevamente");
+                        Debug.WriteLine("💡 CAUSE: ICR2FFB.exe corrupted or invalid format");
+                        Debug.WriteLine("💡 SOLUTION: Download ICR2FFB again");
                         break;
                     default:
-                        Debug.WriteLine($"💡 Error desconocido. Código: {ex.NativeErrorCode}");
+                        Debug.WriteLine($"💡 Unknown error. Code: {ex.NativeErrorCode}");
                         break;
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"❌ Error general: {ex.Message}");
-                Debug.WriteLine($"Tipo: {ex.GetType().Name}");
+                Debug.WriteLine($"❌ General error: {ex.Message}");
+                Debug.WriteLine($"Type: {ex.GetType().Name}");
+            }
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBoxDevice.Text) || string.IsNullOrWhiteSpace(textBoxGame.Text))
+            {
+                MessageBox.Show("Device or Game field is empty", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                writeIni();                
             }
         }
     }

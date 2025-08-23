@@ -1,6 +1,6 @@
 ﻿namespace WinFormsApp1
 {
-    partial class Form1
+    partial class MainDialog
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainDialog));
             panel1 = new Panel();
             comboBoxLimit = new ComboBox();
             label5 = new Label();
@@ -54,13 +54,14 @@
             label12 = new Label();
             label6 = new Label();
             panel3 = new Panel();
+            comboBoxDirectInput = new ComboBox();
             comboBoxVersion = new ComboBox();
             label10 = new Label();
             textBoxGame = new TextBox();
             label9 = new Label();
-            textBoxDevice = new TextBox();
             label8 = new Label();
             label7 = new Label();
+            textBoxDevice = new TextBox();
             label11 = new Label();
             buttonSave = new Button();
             buttonRun = new Button();
@@ -321,17 +322,25 @@
             // panel3
             // 
             panel3.BorderStyle = BorderStyle.FixedSingle;
+            panel3.Controls.Add(comboBoxDirectInput);
             panel3.Controls.Add(comboBoxVersion);
             panel3.Controls.Add(label10);
             panel3.Controls.Add(textBoxGame);
             panel3.Controls.Add(label9);
-            panel3.Controls.Add(textBoxDevice);
             panel3.Controls.Add(label8);
             panel3.Controls.Add(label7);
             panel3.Location = new Point(12, 179);
             panel3.Name = "panel3";
-            panel3.Size = new Size(222, 141);
+            panel3.Size = new Size(229, 141);
             panel3.TabIndex = 2;
+            // 
+            // comboBoxDirectInput
+            // 
+            comboBoxDirectInput.FormattingEnabled = true;
+            comboBoxDirectInput.Location = new Point(52, 37);
+            comboBoxDirectInput.Name = "comboBoxDirectInput";
+            comboBoxDirectInput.Size = new Size(165, 23);
+            comboBoxDirectInput.TabIndex = 6;
             // 
             // comboBoxVersion
             // 
@@ -339,7 +348,7 @@
             comboBoxVersion.Items.AddRange(new object[] { "DOS4G", "REND32A" });
             comboBoxVersion.Location = new Point(110, 106);
             comboBoxVersion.Name = "comboBoxVersion";
-            comboBoxVersion.Size = new Size(100, 23);
+            comboBoxVersion.Size = new Size(107, 23);
             comboBoxVersion.TabIndex = 8;
             // 
             // label10
@@ -355,7 +364,7 @@
             // 
             textBoxGame.Location = new Point(110, 70);
             textBoxGame.Name = "textBoxGame";
-            textBoxGame.Size = new Size(100, 23);
+            textBoxGame.Size = new Size(107, 23);
             textBoxGame.TabIndex = 6;
             // 
             // label9
@@ -366,13 +375,6 @@
             label9.Size = new Size(101, 15);
             label9.TabIndex = 5;
             label9.Text = "Game Executable:";
-            // 
-            // textBoxDevice
-            // 
-            textBoxDevice.Location = new Point(110, 37);
-            textBoxDevice.Name = "textBoxDevice";
-            textBoxDevice.Size = new Size(100, 23);
-            textBoxDevice.TabIndex = 4;
             // 
             // label8
             // 
@@ -393,6 +395,13 @@
             label7.TabIndex = 2;
             label7.Text = "Plugin Config";
             // 
+            // textBoxDevice
+            // 
+            textBoxDevice.Location = new Point(12, 341);
+            textBoxDevice.Name = "textBoxDevice";
+            textBoxDevice.Size = new Size(100, 23);
+            textBoxDevice.TabIndex = 4;
+            // 
             // label11
             // 
             label11.AutoSize = true;
@@ -410,7 +419,7 @@
             buttonSave.TabIndex = 4;
             buttonSave.Text = "Save Config";
             buttonSave.UseVisualStyleBackColor = true;
-            buttonSave.Click += button1_Click;
+            buttonSave.Click += buttonSave_Click;
             // 
             // buttonRun
             // 
@@ -422,19 +431,20 @@
             buttonRun.UseVisualStyleBackColor = true;
             buttonRun.Click += buttonRun_Click;
             // 
-            // Form1
+            // MainDialog
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(385, 347);
+            ClientSize = new Size(389, 368);
             Controls.Add(buttonRun);
             Controls.Add(buttonSave);
             Controls.Add(label11);
+            Controls.Add(textBoxDevice);
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel1);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Name = "Form1";
+            Name = "MainDialog";
             Text = "ICR2FFB Config";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -488,5 +498,6 @@
         private ComboBox comboBoxSpring;
         private ComboBox comboBoxDamper;
         private ComboBox comboBoxConstant;
+        private ComboBox comboBoxDirectInput;
     }
 }
