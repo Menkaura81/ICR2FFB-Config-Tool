@@ -95,7 +95,7 @@
             // comboBoxLimit
             // 
             comboBoxLimit.FormattingEnabled = true;
-            comboBoxLimit.Items.AddRange(new object[] { "False", "True" });
+            comboBoxLimit.Items.AddRange(new object[] { "false", "true" });
             comboBoxLimit.Location = new Point(70, 126);
             comboBoxLimit.Name = "comboBoxLimit";
             comboBoxLimit.Size = new Size(53, 23);
@@ -113,7 +113,7 @@
             // comboBoxInvertFFB
             // 
             comboBoxInvertFFB.FormattingEnabled = true;
-            comboBoxInvertFFB.Items.AddRange(new object[] { "False", "True" });
+            comboBoxInvertFFB.Items.AddRange(new object[] { "false", "true" });
             comboBoxInvertFFB.Location = new Point(70, 97);
             comboBoxInvertFFB.Name = "comboBoxInvertFFB";
             comboBoxInvertFFB.Size = new Size(53, 23);
@@ -200,7 +200,7 @@
             // comboBoxDamper
             // 
             comboBoxDamper.FormattingEnabled = true;
-            comboBoxDamper.Items.AddRange(new object[] { "False", "True" });
+            comboBoxDamper.Items.AddRange(new object[] { "false", "true" });
             comboBoxDamper.Location = new Point(66, 67);
             comboBoxDamper.Name = "comboBoxDamper";
             comboBoxDamper.Size = new Size(53, 23);
@@ -209,7 +209,7 @@
             // comboBoxConstant
             // 
             comboBoxConstant.FormattingEnabled = true;
-            comboBoxConstant.Items.AddRange(new object[] { "False", "True" });
+            comboBoxConstant.Items.AddRange(new object[] { "false", "true" });
             comboBoxConstant.Location = new Point(66, 39);
             comboBoxConstant.Name = "comboBoxConstant";
             comboBoxConstant.Size = new Size(53, 23);
@@ -218,7 +218,7 @@
             // comboBoxSpring
             // 
             comboBoxSpring.FormattingEnabled = true;
-            comboBoxSpring.Items.AddRange(new object[] { "False", "True" });
+            comboBoxSpring.Items.AddRange(new object[] { "false", "true" });
             comboBoxSpring.Location = new Point(100, 128);
             comboBoxSpring.Name = "comboBoxSpring";
             comboBoxSpring.Size = new Size(53, 23);
