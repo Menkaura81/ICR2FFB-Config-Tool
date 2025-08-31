@@ -1,6 +1,7 @@
-﻿using System.ComponentModel;
+﻿using SharpDX.DirectInput;
+using System.ComponentModel;
 using System.Diagnostics;
-using SharpDX.DirectInput;
+
 
 namespace WinFormsApp1
 {
@@ -11,7 +12,6 @@ namespace WinFormsApp1
         // ini values
         private String device;
         private String game;
-        private String version;
         private int force;
         private int deadzone;
         private String invert;
@@ -25,17 +25,16 @@ namespace WinFormsApp1
         // values line in .ini file
         private readonly int DEVICE_LINE = 2;
         private readonly int GAME_LINE = 6;
-        private readonly int VERSION_LINE = 9;
-        private readonly int FORCE_LINE = 13;
-        private readonly int DEADZONE_LINE = 16;
-        private readonly int INVERT_LINE = 19;
-        private readonly int LIMIT_LINE = 22;
-        private readonly int CONSTANT_LINE = 32;
-        private readonly int CONSTANT_SCALE_LINE = 33;
-        private readonly int BRAKING_SCALE_LINE = 36;
-        private readonly int DAMPER_LINE = 39;
-        private readonly int DAMPER_SCALE_LINE = 40;
-        private readonly int SPRING_LINE = 46;
+        private readonly int FORCE_LINE = 11;
+        private readonly int DEADZONE_LINE = 14;
+        private readonly int INVERT_LINE = 17;
+        private readonly int LIMIT_LINE = 20;
+        private readonly int CONSTANT_LINE = 30;
+        private readonly int CONSTANT_SCALE_LINE = 31;
+        private readonly int BRAKING_SCALE_LINE = 34;
+        private readonly int DAMPER_LINE = 37;
+        private readonly int DAMPER_SCALE_LINE = 38;
+        private readonly int SPRING_LINE = 44;
         // DirectInput
         private static DirectInput directInput;
         private static IList<DeviceInstance> devices;
@@ -68,6 +67,7 @@ namespace WinFormsApp1
             {
                 Debug.WriteLine($"Searching devices: {device}");
 
+                
                 // IMPORTANTE: Liberar DirectInput anterior si existe
                 if (directInput != null)
                 {
@@ -81,7 +81,7 @@ namespace WinFormsApp1
                 var allDevices = directInput.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AllDevices);
                 // Filter only connected devices 
                 devices = allDevices.Where(d => d.Type != DeviceType.Mouse && d.Type != DeviceType.Keyboard).ToList();
-
+                
                 // Clean ComboBox
                 comboBoxDirectInput.Items.Clear();
                 comboBoxDirectInput.SelectedIndex = -1; // Asegurar que no hay selección
@@ -94,13 +94,13 @@ namespace WinFormsApp1
                     Debug.WriteLine("No DirectInput devices found");
                     return;
                 }
-
+                
                 // Fill ComboBox with device names
                 foreach (var deviceInstance in devices)
                 {
                     Debug.WriteLine($"Device found: {deviceInstance.ProductName}");
                     comboBoxDirectInput.Items.Add(deviceInstance.ProductName);
-                }
+                }         
 
                 // Search and select the device from ini file
                 bool deviceFound = false;
@@ -152,12 +152,11 @@ namespace WinFormsApp1
             for (int i = 0; i < iniLines.Length; i++)
             {
                 Debug.WriteLine($"{i}: {iniLines[i]}");
-            }
-            */
+            }*/
+            
             // Get values 
             device = iniLines[DEVICE_LINE].Substring("Device: ".Length).Trim();
-            game = iniLines[GAME_LINE].Substring("Game: ".Length).Trim();
-            version = iniLines[VERSION_LINE].Substring("Version: ".Length).Trim();
+            game = iniLines[GAME_LINE].Substring("Game: ".Length).Trim();            
             force = int.Parse(iniLines[FORCE_LINE].Substring("Force: ".Length).Trim());
             deadzone = int.Parse(iniLines[DEADZONE_LINE].Substring("Deadzone: ".Length).Trim());
             invert = iniLines[INVERT_LINE].Substring("Invert: ".Length);
@@ -172,9 +171,7 @@ namespace WinFormsApp1
             int pos = iniLines[DEVICE_LINE].IndexOf(":");
             iniLines[DEVICE_LINE] = iniLines[DEVICE_LINE].Substring(0, pos + 1);
             pos = iniLines[GAME_LINE].IndexOf(":");
-            iniLines[GAME_LINE] = iniLines[GAME_LINE].Substring(0, pos + 1);
-            pos = iniLines[VERSION_LINE].IndexOf(":");
-            iniLines[VERSION_LINE] = iniLines[VERSION_LINE].Substring(0, pos + 1);
+            iniLines[GAME_LINE] = iniLines[GAME_LINE].Substring(0, pos + 1);            
             pos = iniLines[FORCE_LINE].IndexOf(":");
             iniLines[FORCE_LINE] = iniLines[FORCE_LINE].Substring(0, pos + 1);
             pos = iniLines[DEADZONE_LINE].IndexOf(":");
@@ -196,12 +193,12 @@ namespace WinFormsApp1
             pos = iniLines[SPRING_LINE].IndexOf(":");
             iniLines[SPRING_LINE] = iniLines[SPRING_LINE].Substring(0, pos + 1); // incluye el ':'
             // Clean ini check
-            /* 
+            /*
             for (int i = 0; i < iniLines.Length; i++)
             {
                 Debug.WriteLine($"{i}: {iniLines[i]}");
-            }
-            */
+            }*/
+            
         }
 
 
@@ -210,9 +207,8 @@ namespace WinFormsApp1
          */
         private void fillDialog()
         {
-            // comboBoxDirectInput.SelectedItem = device;
-            textBoxGame.Text = game;
-            if (version.Equals("DOS4G"))
+            // comboBoxDirectInput.SelectedItem = device;            
+            if (game.Equals("ICR2DOS"))
             {
                 comboBoxVersion.SelectedIndex = 0;
             }
@@ -274,8 +270,7 @@ namespace WinFormsApp1
         private void writeIni()
         {
             device = comboBoxDirectInput.SelectedItem.ToString();
-            game = textBoxGame.Text.Trim();
-            version = comboBoxVersion.SelectedItem.ToString();
+            game = comboBoxVersion.SelectedItem.ToString();            
             force = (int)numericUpDownForce.Value;
             deadzone = (int)numericUpDownDeadzone.Value;
             invert = comboBoxInvertFFB.SelectedItem.ToString();
@@ -299,11 +294,7 @@ namespace WinFormsApp1
                 else if (i == GAME_LINE)
                 {
                     ini += " " + game;
-                }
-                else if (i == VERSION_LINE)
-                {
-                    ini += " " + version;
-                }
+                }                
                 else if (i == FORCE_LINE)
                 {
                     ini += " " + force;
@@ -427,15 +418,9 @@ namespace WinFormsApp1
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBoxGame.Text))
-            {
-                MessageBox.Show("Game field is empty", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else
-            {
-                writeIni();
-                MessageBox.Show("ini file saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            writeIni();
+            MessageBox.Show("ini file saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            
         }
 
 

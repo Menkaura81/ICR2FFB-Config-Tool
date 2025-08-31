@@ -57,8 +57,6 @@
             buttonRefresh = new Button();
             comboBoxDirectInput = new ComboBox();
             comboBoxVersion = new ComboBox();
-            label10 = new Label();
-            textBoxGame = new TextBox();
             label9 = new Label();
             label8 = new Label();
             label7 = new Label();
@@ -325,14 +323,12 @@
             panel3.Controls.Add(buttonRefresh);
             panel3.Controls.Add(comboBoxDirectInput);
             panel3.Controls.Add(comboBoxVersion);
-            panel3.Controls.Add(label10);
-            panel3.Controls.Add(textBoxGame);
             panel3.Controls.Add(label9);
             panel3.Controls.Add(label8);
             panel3.Controls.Add(label7);
             panel3.Location = new Point(12, 179);
             panel3.Name = "panel3";
-            panel3.Size = new Size(257, 141);
+            panel3.Size = new Size(257, 112);
             panel3.TabIndex = 2;
             // 
             // buttonRefresh
@@ -356,36 +352,20 @@
             // comboBoxVersion
             // 
             comboBoxVersion.FormattingEnabled = true;
-            comboBoxVersion.Items.AddRange(new object[] { "DOS4G", "REND32A" });
-            comboBoxVersion.Location = new Point(110, 106);
+            comboBoxVersion.Items.AddRange(new object[] { "ICR2DOS", "ICR2REND" });
+            comboBoxVersion.Location = new Point(88, 70);
             comboBoxVersion.Name = "comboBoxVersion";
-            comboBoxVersion.Size = new Size(135, 23);
+            comboBoxVersion.Size = new Size(161, 23);
             comboBoxVersion.TabIndex = 8;
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Location = new Point(3, 109);
-            label10.Name = "label10";
-            label10.Size = new Size(48, 15);
-            label10.TabIndex = 7;
-            label10.Text = "Version:";
-            // 
-            // textBoxGame
-            // 
-            textBoxGame.Location = new Point(110, 70);
-            textBoxGame.Name = "textBoxGame";
-            textBoxGame.Size = new Size(135, 23);
-            textBoxGame.TabIndex = 6;
             // 
             // label9
             // 
             label9.AutoSize = true;
             label9.Location = new Point(3, 73);
             label9.Name = "label9";
-            label9.Size = new Size(101, 15);
+            label9.Size = new Size(82, 15);
             label9.TabIndex = 5;
-            label9.Text = "Game Executable:";
+            label9.Text = "Game Version:";
             // 
             // label8
             // 
@@ -409,7 +389,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(12, 323);
+            label11.Location = new Point(12, 303);
             label11.Name = "label11";
             label11.Size = new Size(276, 15);
             label11.TabIndex = 3;
@@ -417,7 +397,7 @@
             // 
             // buttonSave
             // 
-            buttonSave.Location = new Point(283, 210);
+            buttonSave.Location = new Point(283, 189);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(86, 34);
             buttonSave.TabIndex = 4;
@@ -427,7 +407,7 @@
             // 
             // buttonRun
             // 
-            buttonRun.Location = new Point(283, 257);
+            buttonRun.Location = new Point(283, 236);
             buttonRun.Name = "buttonRun";
             buttonRun.Size = new Size(86, 34);
             buttonRun.TabIndex = 5;
@@ -439,7 +419,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(387, 347);
+            ClientSize = new Size(387, 327);
             Controls.Add(buttonRun);
             Controls.Add(buttonSave);
             Controls.Add(label11);
@@ -482,10 +462,8 @@
         private Panel panel3;
         private Label label7;
         protected internal Label label8;
-        private TextBox textBoxGame;
         private Label label9;
         private ComboBox comboBoxVersion;
-        private Label label10;
         private Label label11;
         private Button buttonSave;
         private Button buttonRun;
