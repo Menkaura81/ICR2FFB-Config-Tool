@@ -212,10 +212,11 @@ namespace WinFormsApp1
             {
                 comboBoxVersion.SelectedIndex = 0;
             }
-            else if (game.Equals("IRC2REND"))
+            else if (game.Equals("ICR2REND"))
             {
                 comboBoxVersion.SelectedIndex = 1;
-            } else
+            } 
+            else
             {
                 comboBoxVersion.SelectedIndex = 2;
             }
