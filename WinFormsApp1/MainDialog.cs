@@ -212,11 +212,14 @@ namespace WinFormsApp1
             {
                 comboBoxVersion.SelectedIndex = 0;
             }
-            else
+            else if (game.Equals("IRC2REND"))
             {
                 comboBoxVersion.SelectedIndex = 1;
+            } else
+            {
+                comboBoxVersion.SelectedIndex = 2;
             }
-            numericUpDownForce.Value = force;
+                numericUpDownForce.Value = force;
             numericUpDownDeadzone.Value = deadzone;
             if (invert.Equals("false"))
             {

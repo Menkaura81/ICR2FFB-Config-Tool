@@ -352,7 +352,7 @@
             // comboBoxVersion
             // 
             comboBoxVersion.FormattingEnabled = true;
-            comboBoxVersion.Items.AddRange(new object[] { "ICR2DOS", "ICR2REND" });
+            comboBoxVersion.Items.AddRange(new object[] { "ICR2DOS", "ICR2REND", "ICR2WND" });
             comboBoxVersion.Location = new Point(88, 70);
             comboBoxVersion.Name = "comboBoxVersion";
             comboBoxVersion.Size = new Size(161, 23);
